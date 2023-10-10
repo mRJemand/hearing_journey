@@ -25,9 +25,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'SIGNIA',
         theme: ThemeData(
-          primarySwatch: Colors.red,
-          accentColor: Colors.amber,
-          //canvasColor: Colors.blueGrey,
           canvasColor: Colors.white,
           fontFamily: 'Releway',
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -43,6 +40,8 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red)
+              .copyWith(secondary: Colors.amber),
         ),
         home: TabsScreen(),
         debugShowCheckedModeBanner: false,
