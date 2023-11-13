@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../dummy_data.dart';
@@ -65,91 +66,133 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
+          child:
+              // Column(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+
+              //   ],
+              // ),
+              Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 8.0,
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Frage ${currentQuestionIndex + 1}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance
+                    .collection('questions')
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError)
+                    return Text(
+                      'Error: ${snapshot.error}',
+                      style: const TextStyle(color: Colors.red),
+                    );
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                      return Text(
+                        'Loading...',
+                        style: const TextStyle(color: Colors.red),
+                      );
+                    default:
+                      return Container(
+                        height: 800,
+                        child: ListView(
+                          children: snapshot.data!.docs
+                              .map((DocumentSnapshot document) {
+                            return Card(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              elevation: 8.0,
+                              child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Frage ${document['number'].toString()}',
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    const SizedBox(height: 16),
+                                    Text(
+                                      document['question'],
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          child: AnswerButton(
+                                            answer: 0,
+                                            isSelected: selectedAnswers[
+                                                    questions[
+                                                        currentQuestionIndex]] ==
+                                                0,
+                                            onSelect: selectAnswer,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          child: AnswerButton(
+                                            answer: 1,
+                                            isSelected: selectedAnswers[
+                                                    questions[
+                                                        currentQuestionIndex]] ==
+                                                1,
+                                            onSelect: selectAnswer,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          child: AnswerButton(
+                                            answer: 2,
+                                            isSelected: selectedAnswers[
+                                                    questions[
+                                                        currentQuestionIndex]] ==
+                                                2,
+                                            onSelect: selectAnswer,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          child: AnswerButton(
+                                            answer: 3,
+                                            isSelected: selectedAnswers[
+                                                    questions[
+                                                        currentQuestionIndex]] ==
+                                                3,
+                                            onSelect: selectAnswer,
+                                          ),
+                                        ),
+                                        Container(
+                                          width: double.infinity,
+                                          child: AnswerButton(
+                                            answer: 4,
+                                            isSelected: selectedAnswers[
+                                                    questions[
+                                                        currentQuestionIndex]] ==
+                                                4,
+                                            onSelect: selectAnswer,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          }).toList(),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      const SizedBox(height: 16),
-                      Text(
-                        questions[currentQuestionIndex].question,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(height: 16),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 0,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  0,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 1,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  1,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 2,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  2,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 3,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  3,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 4,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  4,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+                      );
+                  }
+                },
               ),
             ],
           ),
