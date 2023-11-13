@@ -18,7 +18,7 @@ class ResultScreen extends StatelessWidget {
     Map<String, int> categoryScores = {};
 
     selectedAnswers.forEach((question, answer) {
-      var category = question.category;
+      var category = question.phase;
       var points = answer;
       categoryScores.update(category, (value) => value + points,
           ifAbsent: () => points);
@@ -55,7 +55,7 @@ class ResultScreen extends StatelessWidget {
 
     categoryScores.forEach((category, points) {
       int selectedAnswersCount = selectedAnswers.keys
-          .where((question) => question.category == category)
+          .where((question) => question.phase == category)
           .length;
       double average = selectedAnswersCount != 0
           ? points / selectedAnswersCount.toDouble()
@@ -86,7 +86,7 @@ class ResultScreen extends StatelessWidget {
     Map<String, int> categoryQuestionCounts = {};
 
     selectedAnswers.keys.forEach((question) {
-      var category = question.category;
+      var category = question.phase;
       categoryQuestionCounts.update(category, (value) => value + 1,
           ifAbsent: () => 1);
     });
@@ -135,7 +135,7 @@ class ResultScreen extends StatelessWidget {
                 SizedBox(height: 16),
                 for (var entry in selectedAnswers.entries)
                   Text(
-                    'Frage ${entry.key.id}: Antwort ${entry.value}',
+                    'Frage ${entry.key.number}: Antwort ${entry.value}',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
