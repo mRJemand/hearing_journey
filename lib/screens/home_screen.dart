@@ -67,7 +67,7 @@ class HomeScreen extends StatelessWidget {
                           'assets/${item['bild_url']}',
                           height: 250,
                           width: double.infinity,
-                          fit: BoxFit.fill,
+                          fit: BoxFit.cover,
                         ),
                       ),
                       Positioned(
