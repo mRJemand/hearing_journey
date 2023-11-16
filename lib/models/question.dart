@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Question {
   final int number;
   final String question;
@@ -30,6 +32,22 @@ class Question {
         answer_3 = json['answer_3'] as String,
         answer_4 = json['answer_4'] as String,
         answer_5 = json['answer_5'] as String;
+
+  factory Question.fromDocumentSnapshot(
+      QueryDocumentSnapshot documentSnapshot) {
+    final data = documentSnapshot.data() as Map<String, dynamic>;
+
+    return Question(
+      number: data['number'] as int,
+      question: data['question'] as String,
+      phase: data['phase'] as String,
+      answer_1: data['answer_1'] as String,
+      answer_2: data['answer_2'] as String,
+      answer_3: data['answer_3'] as String?,
+      answer_4: data['answer_4'] as String?,
+      answer_5: data['answer_5'] as String?,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         'number': number,

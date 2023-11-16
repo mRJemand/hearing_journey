@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:hearing_journey/widgets/question.dart';
@@ -15,53 +17,78 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
   int currentQuestionIndex = 0;
   // List<Question> questions = DUMMY_QUESTIONS;
   Map<Question, int> selectedAnswers = {};
-  Map<String, int> categoryPoints = {};
+  Map<String, int> phasePoints = {};
+  List<Question>? questionsList;
   // neu
 
   final CollectionReference questions =
       FirebaseFirestore.instance.collection('questions');
-  late QuerySnapshot questionSnapshot;
+  late QuerySnapshot? questionSnapshot;
   int currentIndex = 0;
+  int? total;
+  List<Question>? allQuestions;
+
+  getLength() async {
+    var getDocuments =
+        await questions.where("register", isEqualTo: "yes").get();
+    setState(() {
+      total = getDocuments.docs.length;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     questions.get().then((snapshot) {
-      setState(() {
-        questionSnapshot = snapshot;
-      });
+      if (snapshot != null) {
+        setState(() {
+          questionSnapshot = snapshot;
+          getLength();
+        });
+      }
     });
   }
 
-  void selectAnswer(int answer) {
+  void selectAnswer(Question question, int answer) {
+    print("hallo $question $answer");
     setState(() {
-      // selectedAnswers[questions[currentQuestionIndex]] = answer;
-      // if (currentQuestionIndex < questions.length - 1) {
-      //   currentQuestionIndex++;
-      // } else {
-      //   // Der Fragebogen ist abgeschlossen, berechne die Punkte pro Kategorie
-      //   for (var question in questions) {
-      //     if (selectedAnswers.containsKey(question)) {
-      //       var category = question.category;
-      //       var points = selectedAnswers[question]!;
-      //       categoryPoints.putIfAbsent(category,
-      //           () => 0); // Kategorie hinzufügen, falls noch nicht vorhanden
-      //       categoryPoints[category] = categoryPoints[category]! +
-      //           points; // Punkte zur Kategorie addieren
-      //     }
-      //   }
-      //   // Zeige den Ergebnis-Bildschirm an
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(
-      //       builder: (context) => ResultScreen(
-      //         categoryPoints: categoryPoints,
-      //         selectedAnswers: selectedAnswers,
-      //       ),
-      //     ),
-      //   );
-      // }
+      currentIndex++;
+      selectedAnswers[question] = answer;
+      selectedAnswers.forEach((question, answer) {
+        print('${question.number}: ---> $answer');
+      });
+      if (currentIndex < allQuestions!.length) {
+        currentQuestionIndex++;
+      } else {
+        // Der Fragebogen ist abgeschlossen, berechne die Punkte pro Kategorie
+        for (var question in allQuestions!) {
+          if (selectedAnswers.containsKey(question)) {
+            var phase = question.phase;
+            var points = selectedAnswers[question]!;
+            phasePoints.putIfAbsent(phase,
+                () => 0); // Kategorie hinzufügen, falls noch nicht vorhanden
+            phasePoints[phase] =
+                phasePoints[phase]! + points; // Punkte zur Kategorie addieren
+          }
+        }
+        // Zeige den Ergebnis-Bildschirm an
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ResultScreen(
+              categoryPoints: phasePoints,
+              selectedAnswers: selectedAnswers,
+            ),
+          ),
+        );
+      }
     });
+  }
+
+  List<Question> createQuestionList(QuerySnapshot querySnapshot) {
+    return querySnapshot.docs.map((document) {
+      return Question.fromDocumentSnapshot(document);
+    }).toList();
   }
 
   @override
@@ -70,7 +97,11 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
       return Center(child: CircularProgressIndicator());
     }
 
-    final currentDocument = questionSnapshot.docs[currentIndex];
+    // var currentDocument = questionSnapshot!.docs[currentIndex] as Question;
+    final currentDocumentData =
+        questionSnapshot!.docs[currentIndex].data() as Map<String, dynamic>;
+    final currentQuestion =
+        Question.fromDocumentSnapshot(questionSnapshot!.docs[currentIndex]);
 
     return Scaffold(
       appBar: AppBar(
@@ -89,14 +120,7 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child:
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-
-              //   ],
-              // ),
-              StreamBuilder<QuerySnapshot>(
+          child: StreamBuilder<QuerySnapshot>(
             stream:
                 FirebaseFirestore.instance.collection('questions').snapshots(),
             builder:
@@ -113,25 +137,13 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
                     style: const TextStyle(color: Colors.red),
                   );
                 default:
-                  // return Container(
-                  //   height: 800,
-                  //   child: ListView(
-                  //     children:
-                  //         snapshot.data!.docs.map((DocumentSnapshot document) {
-                  //       return QuestionWidget(questionObject: document);
-                  //     }).toList(),
-                  //   ),
-                  // );
-                  // documentMap
-                  //     .clear(); // Löschen Sie die vorherigen Einträge in der Map.
-                  // for (var document in snapshot.data!.docs) {
-                  //   documentMap[document.id] = document;
-                  // }
-                  // return QuestionWidget(
-                  //     questionObject: documentMap[document.id]);
+                  allQuestions = createQuestionList(snapshot.data!);
                   return SizedBox(
                       width: double.infinity,
-                      child: QuestionWidget(questionObject: currentDocument));
+                      child: QuestionWidget(
+                        questionObject: currentQuestion,
+                        selectAnswer: selectAnswer,
+                      ));
               }
             },
           ),

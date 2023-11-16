@@ -25,10 +25,18 @@ class ResultScreen extends StatelessWidget {
     });
 
     Future<void> _saveKennzahlen(String kennzahlen) async {
-      Directory appDocDir = await getApplicationDocumentsDirectory();
-      File kennzahlenFile = File('${appDocDir.path}/kennzahlen.json');
-      Map<String, dynamic> data = {'highestCategory': kennzahlen};
-      await kennzahlenFile.writeAsString(jsonEncode(data));
+      if (kennzahlen == 'Action') {
+      } else {
+        if (kennzahlen == 'Precontemplation') {
+          kennzahlen = 'A';
+        } else if (kennzahlen == 'Contemplation') {
+          kennzahlen = 'B';
+        }
+        Directory appDocDir = await getApplicationDocumentsDirectory();
+        File kennzahlenFile = File('${appDocDir.path}/kennzahlen.json');
+        Map<String, dynamic> data = {'highestCategory': kennzahlen};
+        await kennzahlenFile.writeAsString(jsonEncode(data));
+      }
     }
 
     String highestCategory = categoryScores.entries.reduce((a, b) {

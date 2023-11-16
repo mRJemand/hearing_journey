@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:hearing_journey/models/question.dart';
 
-class QuestionWidget extends StatefulWidget {
-  final questionObject;
+class QuestionWidget extends StatelessWidget {
+  final Question questionObject;
+  final Function selectAnswer;
 
   const QuestionWidget({
     required this.questionObject,
+    required this.selectAnswer,
     super.key,
   });
-
-  @override
-  State<QuestionWidget> createState() => _QuestionWidgetState();
-}
-
-class _QuestionWidgetState extends State<QuestionWidget> {
-  void selectAnswer() {}
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +24,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Frage ${widget.questionObject['number'].toString()}',
+              'Frage ${questionObject.number.toString()}',
               style: const TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -37,7 +33,7 @@ class _QuestionWidgetState extends State<QuestionWidget> {
             const SizedBox(height: 8),
             const SizedBox(height: 16),
             Text(
-              widget.questionObject['question'],
+              questionObject.question,
               style: TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 16),
@@ -47,42 +43,54 @@ class _QuestionWidgetState extends State<QuestionWidget> {
                 Container(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: selectAnswer,
-                    child: Text(widget.questionObject['answer_1']),
+                    onPressed: () => selectAnswer(questionObject, 1),
+                    child: Text(questionObject.answer_1),
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(top: 8)),
                 Container(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: selectAnswer,
-                    child: Text(widget.questionObject['answer_2']),
+                    onPressed: () => selectAnswer(questionObject, 2),
+                    child: Text(questionObject.answer_2),
                   ),
                 ),
-                Padding(padding: EdgeInsets.only(top: 8)),
-                Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: selectAnswer,
-                    child: Text(widget.questionObject['answer_3']),
-                  ),
-                ),
-                Padding(padding: EdgeInsets.only(top: 8)),
-                Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: selectAnswer,
-                    child: Text(widget.questionObject['answer_4']),
-                  ),
-                ),
-                Padding(padding: EdgeInsets.only(top: 8)),
-                Container(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: selectAnswer,
-                    child: Text(widget.questionObject['answer_5']),
-                  ),
-                ),
+                questionObject.answer_3 != null
+                    ? Padding(padding: EdgeInsets.only(top: 8))
+                    : Container(),
+                questionObject.answer_3 != null
+                    ? Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => selectAnswer(questionObject, 3),
+                          child: Text(questionObject.answer_3!),
+                        ),
+                      )
+                    : Container(),
+                questionObject.answer_4 != null
+                    ? Padding(padding: EdgeInsets.only(top: 8))
+                    : Container(),
+                questionObject.answer_4 != null
+                    ? Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => selectAnswer(questionObject, 4),
+                          child: Text(questionObject.answer_4!),
+                        ),
+                      )
+                    : Container(),
+                questionObject.answer_5 != null
+                    ? Padding(padding: EdgeInsets.only(top: 8))
+                    : Container(),
+                questionObject.answer_5 != null
+                    ? Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => selectAnswer(questionObject, 5),
+                          child: Text(questionObject.answer_5!),
+                        ),
+                      )
+                    : Container(),
                 // Container(
                 //   width: double.infinity,
                 //   child: AnswerButton(

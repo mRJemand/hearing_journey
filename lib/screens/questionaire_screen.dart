@@ -72,10 +72,16 @@ class _QuestionaireScreenState extends State<QuestionaireScreen> {
   }
 
   Future<void> _saveKennzahlen(String kennzahlen) async {
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    File kennzahlenFile = File('${appDocDir.path}/kennzahlen.json');
-    Map<String, dynamic> data = {'highestCategory': kennzahlen};
-    await kennzahlenFile.writeAsString(jsonEncode(data));
+    try {
+      print('Kennzahlen: $kennzahlen');
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      File kennzahlenFile = File('${appDocDir.path}/kennzahlen.json');
+      print(appDocDir.path);
+      Map<String, dynamic> data = {'highestCategory': kennzahlen};
+      await kennzahlenFile.writeAsString(jsonEncode(data));
+    } catch (e) {
+      print('Error saving kennzahlen: $e');
+    }
   }
 
   @override
