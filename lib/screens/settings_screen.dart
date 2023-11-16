@@ -25,6 +25,19 @@ class SettingsScreen extends StatelessWidget {
         'goal': data[i][2],
         'tipp': data[i][3],
         'description': data[i][4],
+        'image': data[i][5],
+        'a': data[i][6],
+        'b': data[i][7],
+        'c1': data[i][8],
+        'c2': data[i][9],
+        'alltag': data[i][10],
+        'bei_der_arbeit': data[i][11],
+        'hilfe_holen': data[i][12],
+        'kommunikation': data[i][13],
+        'reisen': data[i][14],
+        'unterhaltung': data[i][15],
+        'unterwegs': data[i][16],
+        'zu_hause': data[i][17],
       };
 
       tipps.add(record);
