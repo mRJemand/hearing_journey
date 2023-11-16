@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:hearing_journey/screens/home_screen.dart';
+import 'package:hearing_journey/screens/tipps_screen.dart';
 import 'package:hearing_journey/widgets/querstionaire.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -16,6 +18,7 @@ class _QuestionaireScreenState extends State<QuestionaireScreen> {
   bool? resultFirstQuestion;
 
   bool? resultSecondQuestion;
+  bool? endDialog;
 
   firstQuestion(BuildContext context) {
     return AlertDialog(
@@ -53,7 +56,10 @@ class _QuestionaireScreenState extends State<QuestionaireScreen> {
             setState(() {
               resultSecondQuestion = true;
             });
-            Navigator.pop(context, 'Ja');
+
+            setState(() {
+              endDialog = true;
+            });
           },
           child: const Text('Ja'),
         ),
@@ -63,9 +69,35 @@ class _QuestionaireScreenState extends State<QuestionaireScreen> {
             setState(() {
               resultSecondQuestion = false;
             });
-            Navigator.pop(context, 'Nein');
+
+            setState(() {
+              endDialog = true;
+            });
           },
           child: const Text('Nein'),
+        ),
+      ],
+    );
+  }
+
+  endAlertDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text(
+          'Da Sie schon ein Hörgerät benützen, brauchen Sie nicht den Fragebogen auszufüllen'),
+      content: const Text(
+          'Sie können nun entweder zur Startseite oder direkt zu den Tipps'),
+      actions: <Widget>[
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          },
+          child: const Text('Hauptmenü'),
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacementNamed(TippsScreen.routeName);
+          },
+          child: const Text('Tipps'),
         ),
       ],
     );
@@ -98,11 +130,13 @@ class _QuestionaireScreenState extends State<QuestionaireScreen> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: resultFirstQuestion == null && resultSecondQuestion == null
-            ? firstQuestion(context)
-            : resultFirstQuestion == true
-                ? secondQuestion(context)
-                : QuestionnaireWidget(),
+        child: endDialog == true
+            ? endAlertDialog(context)
+            : resultFirstQuestion == null && resultSecondQuestion == null
+                ? firstQuestion(context)
+                : resultFirstQuestion == true
+                    ? secondQuestion(context)
+                    : QuestionnaireWidget(),
       ),
     );
   }

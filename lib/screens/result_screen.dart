@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hearing_journey/screens/home_screen.dart';
+import 'package:hearing_journey/screens/tipps_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import '../models/question.dart';
@@ -101,7 +103,7 @@ class ResultScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ergebnisse'),
+        title: Text(''),
         actions: [
           IconButton(
             icon: Icon(Icons.save),
@@ -114,8 +116,7 @@ class ResultScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Container(
+      body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -126,110 +127,132 @@ class ResultScreen extends StatelessWidget {
               ],
             ),
           ),
-          child: Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Ergebnisse',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 16),
-                for (var entry in selectedAnswers.entries)
-                  Text(
-                    'Frage ${entry.key.number}: Antwort ${entry.value}',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                SizedBox(height: 16),
-                Text(
-                  'Punkte pro Kategorie:',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 8),
-                for (var entry in categoryScores.entries)
-                  Text(
-                    '${entry.key}: ${entry.value} Punkte',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                SizedBox(height: 16),
-                Text(
-                  'Mittelwert pro Kategorie:',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 8),
-                for (var entry in categoryAverages.entries)
-                  Text(
-                    '${entry.key}: ${entry.value.toStringAsFixed(2)}',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                SizedBox(height: 16),
-                Text(
-                  'Anzahl Fragen pro Kategorie:',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 8),
-                for (var entry in categoryQuestionCounts.entries)
-                  Text(
-                    '${entry.key}: ${entry.value}',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                SizedBox(height: 16),
-                Text(
-                  'Gesamtpunktzahl: $totalPoints',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-                SizedBox(height: 16),
-                Text(
-                  'Kategorie mit höchstem Mittelwert: $highestAverageCategory',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
-            ),
+          child: AlertDialog(
+            title: const Text('Vielen Dank für das ausfüllen des Fragebogens.'),
+            content: const Text(
+                'Sie können nun entweder zur Startseite oder direkt zu den Tipps'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(HomeScreen.routeName);
+                  // Navigator.pop(context, 'Ja');
+                },
+                child: const Text('Hauptmenü'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushReplacementNamed(TippsScreen.routeName);
+                  // Navigator.pop(context, 'Nein');
+                },
+                child: const Text('Tipps'),
+              ),
+            ],
+          )
+          //   Container(
+          //     width: double.infinity,
+          //     padding: EdgeInsets.all(16.0),
+          //     child: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         Text(
+          //           'Ergebnisse',
+          //           style: TextStyle(
+          //             fontSize: 18,
+          //             fontWeight: FontWeight.bold,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //         SizedBox(height: 16),
+          //         for (var entry in selectedAnswers.entries)
+          //           Text(
+          //             'Frage ${entry.key.number}: Antwort ${entry.value}',
+          //             style: TextStyle(
+          //               fontSize: 18,
+          //               fontWeight: FontWeight.bold,
+          //               color: Colors.white,
+          //             ),
+          //           ),
+          //         SizedBox(height: 16),
+          //         Text(
+          //           'Punkte pro Kategorie:',
+          //           style: TextStyle(
+          //             fontSize: 18,
+          //             fontWeight: FontWeight.bold,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //         SizedBox(height: 8),
+          //         for (var entry in categoryScores.entries)
+          //           Text(
+          //             '${entry.key}: ${entry.value} Punkte',
+          //             style: TextStyle(
+          //               fontSize: 18,
+          //               fontWeight: FontWeight.bold,
+          //               color: Colors.white,
+          //             ),
+          //           ),
+          //         SizedBox(height: 16),
+          //         Text(
+          //           'Mittelwert pro Kategorie:',
+          //           style: TextStyle(
+          //             fontSize: 18,
+          //             fontWeight: FontWeight.bold,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //         SizedBox(height: 8),
+          //         for (var entry in categoryAverages.entries)
+          //           Text(
+          //             '${entry.key}: ${entry.value.toStringAsFixed(2)}',
+          //             style: TextStyle(
+          //               fontSize: 18,
+          //               fontWeight: FontWeight.bold,
+          //               color: Colors.white,
+          //             ),
+          //           ),
+          //         SizedBox(height: 16),
+          //         Text(
+          //           'Anzahl Fragen pro Kategorie:',
+          //           style: TextStyle(
+          //             fontSize: 18,
+          //             fontWeight: FontWeight.bold,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //         SizedBox(height: 8),
+          //         for (var entry in categoryQuestionCounts.entries)
+          //           Text(
+          //             '${entry.key}: ${entry.value}',
+          //             style: TextStyle(
+          //               fontSize: 18,
+          //               fontWeight: FontWeight.bold,
+          //               color: Colors.white,
+          //             ),
+          //           ),
+          //         SizedBox(height: 16),
+          //         Text(
+          //           'Gesamtpunktzahl: $totalPoints',
+          //           style: TextStyle(
+          //             fontSize: 18,
+          //             fontWeight: FontWeight.bold,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //         SizedBox(height: 16),
+          //         Text(
+          //           'Kategorie mit höchstem Mittelwert: $highestAverageCategory',
+          //           style: TextStyle(
+          //             fontSize: 18,
+          //             fontWeight: FontWeight.bold,
+          //             color: Colors.white,
+          //           ),
+          //         ),
+          //       ],
+          //     ),
+          //   ),
           ),
-        ),
-      ),
     );
   }
 }

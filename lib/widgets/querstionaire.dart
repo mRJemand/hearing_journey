@@ -71,7 +71,7 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
           }
         }
         // Zeige den Ergebnis-Bildschirm an
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => ResultScreen(
