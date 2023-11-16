@@ -14,7 +14,6 @@ class QuestionnaireWidget extends StatefulWidget {
 }
 
 class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
-  int currentQuestionIndex = 0;
   // List<Question> questions = DUMMY_QUESTIONS;
   Map<Question, int> selectedAnswers = {};
   Map<String, int> phasePoints = {};
@@ -24,40 +23,40 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
   final CollectionReference questions =
       FirebaseFirestore.instance.collection('questions');
   late QuerySnapshot? questionSnapshot;
-  int currentIndex = 0;
-  int? total;
-  List<Question>? allQuestions;
+  int currentQuestionIndex = 0;
 
-  getLength() async {
-    var getDocuments =
-        await questions.where("register", isEqualTo: "yes").get();
-    setState(() {
-      total = getDocuments.docs.length;
-    });
-  }
+  List<Question>? allQuestions;
 
   @override
   void initState() {
     super.initState();
-    questions.get().then((snapshot) {
+    questionSnapshot = null;
+    _loadQuestions();
+  }
+
+  Future<void> _loadQuestions() async {
+    try {
+      QuerySnapshot snapshot = await questions.get();
       if (snapshot != null) {
         setState(() {
           questionSnapshot = snapshot;
-          getLength();
+          allQuestions = createQuestionList(snapshot);
+          allQuestions?.sort((a, b) => a.number.compareTo(b.number));
         });
       }
-    });
+    } catch (e) {
+      print('Error loading questions: $e');
+    }
   }
 
   void selectAnswer(Question question, int answer) {
     print("hallo $question $answer");
     setState(() {
-      currentIndex++;
       selectedAnswers[question] = answer;
       selectedAnswers.forEach((question, answer) {
         print('${question.number}: ---> $answer');
       });
-      if (currentIndex < allQuestions!.length) {
+      if (currentQuestionIndex < allQuestions!.length - 1) {
         currentQuestionIndex++;
       } else {
         // Der Fragebogen ist abgeschlossen, berechne die Punkte pro Kategorie
@@ -93,15 +92,14 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
 
   @override
   Widget build(BuildContext context) {
-    if (questionSnapshot == null) {
+    if (questionSnapshot == null ||
+        allQuestions == null ||
+        questionSnapshot!.docs.length == 0 ||
+        allQuestions!.isEmpty) {
       return Center(child: CircularProgressIndicator());
     }
 
-    // var currentDocument = questionSnapshot!.docs[currentIndex] as Question;
-    final currentDocumentData =
-        questionSnapshot!.docs[currentIndex].data() as Map<String, dynamic>;
-    final currentQuestion =
-        Question.fromDocumentSnapshot(questionSnapshot!.docs[currentIndex]);
+    final currentQuestion = allQuestions![currentQuestionIndex];
 
     return Scaffold(
       appBar: AppBar(
@@ -120,32 +118,9 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: StreamBuilder<QuerySnapshot>(
-            stream:
-                FirebaseFirestore.instance.collection('questions').snapshots(),
-            builder:
-                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              if (snapshot.hasError)
-                return Text(
-                  'Error: ${snapshot.error}',
-                  style: const TextStyle(color: Colors.red),
-                );
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return Text(
-                    'Loading...',
-                    style: const TextStyle(color: Colors.red),
-                  );
-                default:
-                  allQuestions = createQuestionList(snapshot.data!);
-                  return SizedBox(
-                      width: double.infinity,
-                      child: QuestionWidget(
-                        questionObject: currentQuestion,
-                        selectAnswer: selectAnswer,
-                      ));
-              }
-            },
+          child: QuestionWidget(
+            questionObject: currentQuestion,
+            selectAnswer: selectAnswer,
           ),
         ),
       ),
