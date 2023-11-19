@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hearing_journey/screens/home_screen.dart';
-import 'package:hearing_journey/screens/tipps_screen.dart';
+import 'package:hearing_journey/screens/tips_category_screen.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import '../models/question.dart';
@@ -27,18 +27,15 @@ class ResultScreen extends StatelessWidget {
     });
 
     Future<void> _saveKennzahlen(String kennzahlen) async {
-      if (kennzahlen == 'Action') {
-      } else {
-        if (kennzahlen == 'Precontemplation') {
-          kennzahlen = 'A';
-        } else if (kennzahlen == 'Contemplation') {
-          kennzahlen = 'B';
-        }
-        Directory appDocDir = await getApplicationDocumentsDirectory();
-        File kennzahlenFile = File('${appDocDir.path}/kennzahlen.json');
-        Map<String, dynamic> data = {'highestCategory': kennzahlen};
-        await kennzahlenFile.writeAsString(jsonEncode(data));
+      if (kennzahlen == 'Precontemplation') {
+        kennzahlen = 'a';
+      } else if (kennzahlen == 'Contemplation' || kennzahlen == 'Action') {
+        kennzahlen = 'b';
       }
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      File kennzahlenFile = File('${appDocDir.path}/kennzahlen.json');
+      Map<String, dynamic> data = {'highestCategory': kennzahlen};
+      await kennzahlenFile.writeAsString(jsonEncode(data));
     }
 
     String highestCategory = categoryScores.entries.reduce((a, b) {
@@ -133,7 +130,11 @@ class ResultScreen extends StatelessWidget {
                 'Sie können nun entweder zur Startseite oder direkt zu den Tipps'),
             actions: <Widget>[
               TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  await _saveKennzahlen(highestAverageCategory);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Kennzahlen wurden gespeichert.'),
+                  ));
                   Navigator.of(context)
                       .pushReplacementNamed(HomeScreen.routeName);
                   // Navigator.pop(context, 'Ja');
@@ -141,9 +142,14 @@ class ResultScreen extends StatelessWidget {
                 child: const Text('Hauptmenü'),
               ),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  await _saveKennzahlen(highestAverageCategory);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(
+                        'Kennzahlen wurden gespeichert. ($highestAverageCategory)'),
+                  ));
                   Navigator.of(context)
-                      .pushReplacementNamed(TippsScreen.routeName);
+                      .pushReplacementNamed(TippsCategoryScreen.routeName);
                   // Navigator.pop(context, 'Nein');
                 },
                 child: const Text('Tipps'),

@@ -10,12 +10,12 @@ class SettingsScreen extends StatelessWidget {
   static const routeName = '/settings';
 
   void uploadTippsCSV() async {
-    final CollectionReference tipps =
-        FirebaseFirestore.instance.collection("tipps");
+    final CollectionReference tips =
+        FirebaseFirestore.instance.collection("tips");
 
-    final myData = await rootBundle.loadString("assets/tipps.csv");
+    final myData = await rootBundle.loadString("assets/tips.csv");
 
-    await truncateCollection('tipps');
+    await truncateCollection('tips');
 
     List<List<dynamic>> data = getCsvTableFromData(myData);
     for (var i = 0; i < data.length; i++) {
@@ -40,9 +40,9 @@ class SettingsScreen extends StatelessWidget {
         'zu_hause': data[i][17],
       };
 
-      tipps.add(record);
+      tips.add(record);
     }
-    print('TIPPS CSV UPLOADED SUCCESSFULLY');
+    print('TIPS CSV UPLOADED SUCCESSFULLY');
   }
 
   void uploadQuestionsCSV() async {
@@ -102,16 +102,27 @@ class SettingsScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          ElevatedButton(
-            onPressed: uploadQuestionsCSV,
-            child: Text("Upload questions CSV"),
-          ),
-          ElevatedButton(
-            onPressed: uploadTippsCSV,
-            child: Text("Upload tipps CSV"),
+          SizedBox(
+            height: 8,
           ),
           Center(
-            child: Text('Hier entsteht in kürze was!'),
+            child: Text('Hier kommt noch mehr!'),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              icon: Icon(Icons.upload),
+              onPressed: uploadQuestionsCSV,
+              label: Text("Upload questions CSV"),
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              icon: Icon(Icons.upload),
+              onPressed: uploadTippsCSV,
+              label: Text("Upload tipps CSV"),
+            ),
           ),
         ],
       ),

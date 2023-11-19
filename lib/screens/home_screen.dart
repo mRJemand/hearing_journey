@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:hearing_journey/screens/questionaire_screen.dart';
-import 'package:hearing_journey/screens/tipps_screen.dart';
+import 'package:hearing_journey/screens/tips_category_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const routeName = '/';
@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
     {
       'name': 'Tipps',
       'bild_url': 'tipps.jpg',
-      'routeName': TippsScreen.routeName
+      'routeName': TippsCategoryScreen.routeName
     }
   ];
 

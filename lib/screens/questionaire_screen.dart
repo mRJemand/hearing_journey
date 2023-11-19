@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hearing_journey/screens/home_screen.dart';
-import 'package:hearing_journey/screens/tipps_screen.dart';
+import 'package:hearing_journey/screens/tips_category_screen.dart';
 import 'package:hearing_journey/widgets/querstionaire.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -52,7 +52,7 @@ class _QuestionaireScreenState extends State<QuestionaireScreen> {
       actions: <Widget>[
         TextButton(
           onPressed: () {
-            _saveKennzahlen('C1');
+            _saveKennzahlen('c1');
             setState(() {
               resultSecondQuestion = true;
             });
@@ -65,7 +65,7 @@ class _QuestionaireScreenState extends State<QuestionaireScreen> {
         ),
         TextButton(
           onPressed: () {
-            _saveKennzahlen('C2');
+            _saveKennzahlen('c2');
             setState(() {
               resultSecondQuestion = false;
             });
@@ -95,7 +95,8 @@ class _QuestionaireScreenState extends State<QuestionaireScreen> {
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushReplacementNamed(TippsScreen.routeName);
+            Navigator.of(context)
+                .pushReplacementNamed(TippsCategoryScreen.routeName);
           },
           child: const Text('Tipps'),
         ),

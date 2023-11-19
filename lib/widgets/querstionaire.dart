@@ -70,6 +70,7 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
                 phasePoints[phase]! + points; // Punkte zur Kategorie addieren
           }
         }
+
         // Zeige den Ergebnis-Bildschirm an
         Navigator.pushReplacement(
           context,

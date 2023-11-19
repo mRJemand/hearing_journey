@@ -4,7 +4,7 @@ import './diary_screen.dart';
 import './help_screen.dart';
 import './profile_screen.dart';
 import './settings_screen.dart';
-import './tipps_screen.dart';
+import 'tips_category_screen.dart';
 import '../widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class _TabsScreenState extends State<TabsScreen> {
       'title': 'Hearing Journey',
     },
     {
-      'page': TippsScreen(),
+      'page': TippsCategoryScreen(),
       'title': 'Tipps',
     },
     {

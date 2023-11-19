@@ -4,11 +4,10 @@ import 'package:hearing_journey/screens/questionaire_screen.dart';
 import 'package:provider/provider.dart';
 import './screens/diary_screen.dart';
 import './screens/help_screen.dart';
-import './screens/home_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/settings_screen.dart';
-import './screens/tipp_detail_screen.dart';
-import './screens/tipps_screen.dart';
+import 'screens/tip_detail_screen.dart';
+import 'screens/tips_category_screen.dart';
 import './screens/tabs_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -69,11 +68,11 @@ class MyApp extends StatelessWidget {
           SettingsScreen.routeName: (context) {
             return SettingsScreen();
           },
-          TippsScreen.routeName: (context) {
-            return TippsScreen();
+          TippsCategoryScreen.routeName: (context) {
+            return TippsCategoryScreen();
           },
-          TippDetailScreen.routeName: (context) {
-            return TippDetailScreen();
+          TipDetailScreen.routeName: (context) {
+            return TipDetailScreen();
           },
         },
         // onGenerateRoute: (settings) {
@@ -81,7 +80,7 @@ class MyApp extends StatelessWidget {
         // return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
         // },
         onUnknownRoute: (settings) {
-          return MaterialPageRoute(builder: (ctx) => TippsScreen());
+          return MaterialPageRoute(builder: (ctx) => TippsCategoryScreen());
         },
       ),
     );

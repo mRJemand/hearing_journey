@@ -5,7 +5,7 @@ import 'package:hearing_journey/screens/home_screen.dart';
 import 'package:hearing_journey/screens/profile_screen.dart';
 import 'package:hearing_journey/screens/questionaire_screen.dart';
 import 'package:hearing_journey/screens/settings_screen.dart';
-import 'package:hearing_journey/screens/tipps_screen.dart';
+import 'package:hearing_journey/screens/tips_category_screen.dart';
 
 class MainDrawer extends StatelessWidget {
   Widget buildListTile(String title, IconData icon, VoidCallback? tapHandler) {
@@ -80,7 +80,7 @@ class MainDrawer extends StatelessWidget {
               'Tipps',
               Icons.edit,
               () {
-                Navigator.of(context).pushNamed(TippsScreen.routeName);
+                Navigator.of(context).pushNamed(TippsCategoryScreen.routeName);
               },
             ),
             // buildListTile(

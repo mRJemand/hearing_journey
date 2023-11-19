@@ -17,6 +17,7 @@ dependencies:
   firebase_core: ^2.22.0
   cloud_firestore: ^4.13.0
   csv: ^5.1.1
+  accordion: ^2.6.0
 
 dev_dependencies:
   flutter_test:
@@ -30,5 +31,5 @@ flutter:
      - assets/fragebogen.jpg
      - assets/tipps.jpg
      - assets/questions.csv
-     - assets/tipps.csv
+     - assets/tips.csv
 
