@@ -13,22 +13,26 @@ class TippDetailWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(
-          height: 8,
-        ),
-        Text(
-          currentTip.title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-        ),
-        const SizedBox(
-          height: 8,
-        ),
         Image.network(
           currentTip.image,
           height: 250,
           width: double.infinity,
           fit: BoxFit.cover,
+        ),
+        SizedBox(
+          height: 16,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            currentTip.title,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+            ),
+          ),
         ),
         Accordion(
           scaleWhenAnimating: true,
@@ -58,7 +62,7 @@ class TippDetailWidget extends StatelessWidget {
                       fontWeight: FontWeight.normal)),
             ),
             AccordionSection(
-              isOpen: false,
+              isOpen: true,
 
               // contentVerticalPadding: 200,
               leftIcon: const Icon(Icons.tips_and_updates, color: Colors.white),
@@ -83,7 +87,7 @@ class TippDetailWidget extends StatelessWidget {
               leftIcon: const Icon(Icons.description, color: Colors.white),
               headerPadding: EdgeInsets.all(8 - 0),
               header: const Text(
-                'Beschreibung',
+                'Erklärung',
                 style: TextStyle(
                     color: Color(0xffffffff),
                     fontSize: 18,

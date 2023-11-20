@@ -82,7 +82,7 @@ class _SignInState extends State<SignIn> {
                     print('Error: Not logged in!');
                   }
                 },
-                label: Text('Login with Username & Password'),
+                label: Text('Anmelden'),
               ),
             ),
             SizedBox(height: 16),
@@ -100,7 +100,7 @@ class _SignInState extends State<SignIn> {
                     print('Error: Not logged in!');
                   }
                 },
-                label: Text('Login Anonymously'),
+                label: const Text('Als Gast anmelden'),
               ),
             ),
             SizedBox(height: 16),
@@ -116,20 +116,20 @@ class _SignInState extends State<SignIn> {
                   print('Error: Not created!');
                 }
               },
-              child: Text('Create Username & Password'),
+              child: const Text('Registrieren mit Email & Password'),
             ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () async {
-                dynamic result = await _auth.signOut();
-                if (result != null) {
-                  print('User signed out: $result');
-                } else {
-                  print('Error: Not signed out!');
-                }
-              },
-              child: Text('Sign Out'),
-            ),
+            // SizedBox(height: 16),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     dynamic result = await _auth.signOut();
+            //     if (result != null) {
+            //       print('User signed out: $result');
+            //     } else {
+            //       print('Error: Not signed out!');
+            //     }
+            //   },
+            //   child: Text('Sign Out'),
+            // ),
           ],
         ),
       ),

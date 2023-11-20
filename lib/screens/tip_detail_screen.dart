@@ -196,37 +196,40 @@ class _TipDetailScreenState extends State<TipDetailScreen> {
           // buildSectionTitle(context, '${selectedTipp.title}'),
           showNoTipsText
               ? Center(child: Text('Keine Tipps dazu'))
-              : Column(
-                  children: [
-                    //   Text(json.encode(allTips)),
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      //   Text(json.encode(allTips)),
 
-                    TippDetailWidget(currentTip: currentTip),
-                    ListTile(
-                      //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
-                      title: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: isPreviousTipAvailable()
-                                  ? () => previousTip()
-                                  : null,
-                              child: const Text('zurück'),
+                      TippDetailWidget(currentTip: currentTip),
+                      ListTile(
+                        //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
+                        title: Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: isPreviousTipAvailable()
+                                    ? () => previousTip()
+                                    : null,
+                                child: const Text('zurück'),
+                              ),
                             ),
-                          ),
-                          SizedBox(
-                            width: 8,
-                          ),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed:
-                                  isNextTipAvailable() ? () => nextTip() : null,
-                              child: const Text('weiter'),
+                            SizedBox(
+                              width: 8,
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: isNextTipAvailable()
+                                    ? () => nextTip()
+                                    : null,
+                                child: const Text('weiter'),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
       // buildContainer(Text('${selectedTipp.tipp}'))
       //   ],

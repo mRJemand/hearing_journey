@@ -139,7 +139,7 @@ class ResultScreen extends StatelessWidget {
                       .pushReplacementNamed(HomeScreen.routeName);
                   // Navigator.pop(context, 'Ja');
                 },
-                child: const Text('Hauptmenü'),
+                child: const Text('Startseite'),
               ),
               TextButton(
                 onPressed: () async {

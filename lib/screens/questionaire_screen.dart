@@ -91,7 +91,7 @@ class _QuestionaireScreenState extends State<QuestionaireScreen> {
           onPressed: () {
             Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
           },
-          child: const Text('Hauptmenü'),
+          child: const Text('Startseite'),
         ),
         TextButton(
           onPressed: () {
