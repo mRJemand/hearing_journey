@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hearing_journey/provider/tipps.dart';
 import 'package:hearing_journey/screens/questionaire_screen.dart';
+import 'package:hearing_journey/widgets/authenticate.dart';
+import 'package:hearing_journey/widgets/sign_in.dart';
 import 'package:provider/provider.dart';
 import './screens/diary_screen.dart';
 import './screens/help_screen.dart';
@@ -50,7 +52,7 @@ class MyApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red)
               .copyWith(secondary: Colors.amber),
         ),
-        home: TabsScreen(),
+        home: Authenticate(),
         debugShowCheckedModeBanner: false,
         routes: {
           DiaryScreen.routeName: (context) {
@@ -73,6 +75,12 @@ class MyApp extends StatelessWidget {
           },
           TipDetailScreen.routeName: (context) {
             return TipDetailScreen();
+          },
+          TabsScreen.routeName: (context) {
+            return TabsScreen();
+          },
+          SignIn.routeName: (context) {
+            return SignIn();
           },
         },
         // onGenerateRoute: (settings) {

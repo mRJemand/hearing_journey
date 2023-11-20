@@ -4,6 +4,10 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>.DS_Store</key>
+		<data>
+		kJQ83gF094wGOxBGPU52bHBmLi4=
+		</data>
 		<key>Headers/byte_buffer.h</key>
 		<data>
 		ivrdQnUsS+mXskID2hSv0gsb0SQ=
@@ -263,6 +267,14 @@
 		<key>Modules/module.modulemap</key>
 		<data>
 		0k2lMNnOc1d9VpHJHGcpndWKVd4=
+		</data>
+		<key>PrivateHeaders/.DS_Store</key>
+		<data>
+		tuZaV62+p62K+8z0aBBPsqrKfkQ=
+		</data>
+		<key>PrivateHeaders/src/.DS_Store</key>
+		<data>
+		EJS9u7luaoWPPnDp8wSVopHUdf8=
 		</data>
 		<key>PrivateHeaders/src/core/ext/filters/channel_idle/channel_idle_filter.h</key>
 		<data>
