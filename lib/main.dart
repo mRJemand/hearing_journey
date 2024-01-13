@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hearing_journey/provider/tipps.dart';
 import 'package:hearing_journey/screens/questionaire_screen.dart';
+import 'package:hearing_journey/screens/tip_detail_list_screen.dart';
 import 'package:hearing_journey/widgets/authenticate.dart';
 import 'package:hearing_journey/widgets/sign_in.dart';
 import 'package:provider/provider.dart';
@@ -75,6 +76,9 @@ class MyApp extends StatelessWidget {
           },
           TipDetailScreen.routeName: (context) {
             return TipDetailScreen();
+          },
+          TipDetailListScreen.routeName: (context) {
+            return TipDetailListScreen();
           },
           TabsScreen.routeName: (context) {
             return TabsScreen();

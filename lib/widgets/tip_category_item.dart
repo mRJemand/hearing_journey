@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hearing_journey/screens/tip_detail_list_screen.dart';
 import '../screens/tip_detail_screen.dart';
 
 class TipCategoryItem extends StatelessWidget {
@@ -16,7 +17,8 @@ class TipCategoryItem extends StatelessWidget {
 
   void selectTipp(BuildContext context) {
     Navigator.of(context).pushNamed(
-      TipDetailScreen.routeName,
+      TipDetailListScreen.routeName,
+      // TipDetailScreen.routeName,
       arguments: this,
     );
   }

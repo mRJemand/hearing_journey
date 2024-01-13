@@ -201,12 +201,15 @@ class _TipDetailScreenState extends State<TipDetailScreen> {
                     children: [
                       //   Text(json.encode(allTips)),
 
-                      TippDetailWidget(
-                          currentTip: currentTip,
-                          isNextTipAvailable: isNextTipAvailable(),
-                          isPreviousTipAvailable: isPreviousTipAvailable(),
-                          nextTip: nextTip,
-                          previousTip: previousTip),
+                      // TippDetailWidget(
+                      //   currentTip: currentTip,
+                      //   isNextTipAvailable: isNextTipAvailable(),
+                      //   isPreviousTipAvailable: isPreviousTipAvailable(),
+                      //   nextTip: nextTip,
+                      //   previousTip: previousTip,
+                      //   tipCategoryItem: tipCategoryItem,
+                      //   currentTipsIndex: currentTipsIndex,
+                      // ), asdasdasdasdasd
                       // ListTile(
                       //   //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
                       //   title: Row(

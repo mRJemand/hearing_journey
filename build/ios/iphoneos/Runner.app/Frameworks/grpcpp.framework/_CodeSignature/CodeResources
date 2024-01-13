@@ -4,17 +4,13 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>.DS_Store</key>
-		<data>
-		LezvNpST6MnZW+jtvIoDSmrVoKg=
-		</data>
 		<key>Info.plist</key>
 		<data>
-		Hxd/Vc5GnU+9YXCjMvFUbGaTNLQ=
+		ewBfBRN3mrdiUudtkcKR+3aVIjU=
 		</data>
 		<key>gRPCCertificates-Cpp.bundle/Info.plist</key>
 		<data>
-		kh+GgiS64Mic/I/7h2X6dvrePJM=
+		KNRy3tcKVKCXSff2baxSTWJlMTA=
 		</data>
 		<key>gRPCCertificates-Cpp.bundle/roots.pem</key>
 		<data>
@@ -27,11 +23,11 @@
 		<dict>
 			<key>hash</key>
 			<data>
-			kh+GgiS64Mic/I/7h2X6dvrePJM=
+			KNRy3tcKVKCXSff2baxSTWJlMTA=
 			</data>
 			<key>hash2</key>
 			<data>
-			AivB19x6E8Du9L7DPrvPXWEx5oeBdeJPxPPaWc8rUb0=
+			ao9aEb/CTXgpjPdgrJTrrXySB2TmvqrY0sfmtdjynMM=
 			</data>
 		</dict>
 		<key>gRPCCertificates-Cpp.bundle/roots.pem</key>
