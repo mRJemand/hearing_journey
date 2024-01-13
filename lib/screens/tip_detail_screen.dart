@@ -201,33 +201,38 @@ class _TipDetailScreenState extends State<TipDetailScreen> {
                     children: [
                       //   Text(json.encode(allTips)),
 
-                      TippDetailWidget(currentTip: currentTip),
-                      ListTile(
-                        //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
-                        title: Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: isPreviousTipAvailable()
-                                    ? () => previousTip()
-                                    : null,
-                                child: const Text('zurück'),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: isNextTipAvailable()
-                                    ? () => nextTip()
-                                    : null,
-                                child: const Text('weiter'),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      TippDetailWidget(
+                          currentTip: currentTip,
+                          isNextTipAvailable: isNextTipAvailable(),
+                          isPreviousTipAvailable: isPreviousTipAvailable(),
+                          nextTip: nextTip,
+                          previousTip: previousTip),
+                      // ListTile(
+                      //   //contentPadding: EdgeInsets.all(<some value here>),//change for side padding
+                      //   title: Row(
+                      //     children: <Widget>[
+                      //       Expanded(
+                      //         child: ElevatedButton(
+                      //           onPressed: isPreviousTipAvailable()
+                      //               ? () => previousTip()
+                      //               : null,
+                      //           child: const Text('zurück'),
+                      //         ),
+                      //       ),
+                      //       SizedBox(
+                      //         width: 8,
+                      //       ),
+                      //       Expanded(
+                      //         child: ElevatedButton(
+                      //           onPressed: isNextTipAvailable()
+                      //               ? () => nextTip()
+                      //               : null,
+                      //           child: const Text('weiter'),
+                      //         ),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),

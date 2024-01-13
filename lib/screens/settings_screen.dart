@@ -105,9 +105,9 @@ class SettingsScreen extends StatelessWidget {
           SizedBox(
             height: 8,
           ),
-          Center(
-            child: Text('Hier kommt noch mehr!'),
-          ),
+          // Center(
+          //   child: Text('Hier kommt noch mehr!'),
+          // ),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(

@@ -4,9 +4,17 @@ import 'package:hearing_journey/models/tip.dart';
 
 class TippDetailWidget extends StatelessWidget {
   final Tip currentTip;
+  final bool isNextTipAvailable;
+  final bool isPreviousTipAvailable;
+  final VoidCallback nextTip;
+  final VoidCallback previousTip;
 
   const TippDetailWidget({
     required this.currentTip,
+    required this.isNextTipAvailable,
+    required this.isPreviousTipAvailable,
+    required this.nextTip,
+    required this.previousTip,
     super.key,
   });
 
@@ -15,22 +23,63 @@ class TippDetailWidget extends StatelessWidget {
     return Column(
       // crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Image.network(
-          currentTip.image,
-          height: 250,
-          width: double.infinity,
-          fit: BoxFit.cover,
+        Stack(
+          children: [
+            Image.asset(
+              'assets/${currentTip.image}',
+              height: 250,
+              width: double.infinity,
+              fit: BoxFit.cover,
+            ),
+            // Linker Button mit Hintergrund
+            isPreviousTipAvailable
+                ? Positioned(
+                    top: 0,
+                    bottom: 0,
+                    left: 0,
+                    child: Container(
+                      color: Colors.black.withOpacity(
+                          0.5), // Transparenter schwarzer Hintergrund
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () => previousTip(),
+                      ),
+                    ),
+                  )
+                : Container(),
+
+            // Rechter Button mit Hintergrund
+            isNextTipAvailable
+                ? Positioned(
+                    top: 0,
+                    bottom: 0,
+                    right: 0,
+                    child: Container(
+                      color: Colors.black.withOpacity(
+                          0.5), // Transparenter schwarzer Hintergrund
+                      child: IconButton(
+                        icon: Icon(Icons.arrow_forward, color: Colors.white),
+                        onPressed: () => nextTip(),
+                        // Fügen Sie hier Ihre next() Logik ein
+                      ),
+                    ),
+                  )
+                : Container(),
+          ],
         ),
         SizedBox(
           height: 16,
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(
-            currentTip.title,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 22,
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              currentTip.title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
+              ),
             ),
           ),
         ),
@@ -55,11 +104,15 @@ class TippDetailWidget extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
-              content: Text(currentTip.goal,
-                  style: const TextStyle(
-                      //  color: Color(0xff999999),
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal)),
+              content: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(currentTip.goal,
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                        //  color: Color(0xff999999),
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal)),
+              ),
             ),
             AccordionSection(
               isOpen: true,
@@ -74,11 +127,14 @@ class TippDetailWidget extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
-              content: Text(currentTip.tipp,
-                  style: const TextStyle(
-                      //  color: Color(0xff999999),
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal)),
+              content: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(currentTip.tipp,
+                    style: const TextStyle(
+                        //  color: Color(0xff999999),
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal)),
+              ),
             ),
             AccordionSection(
               isOpen: false,
@@ -93,11 +149,14 @@ class TippDetailWidget extends StatelessWidget {
                     fontSize: 18,
                     fontWeight: FontWeight.bold),
               ),
-              content: Text(currentTip.description,
-                  style: const TextStyle(
-                      //  color: Color(0xff999999),
-                      fontSize: 14,
-                      fontWeight: FontWeight.normal)),
+              content: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(currentTip.description,
+                    style: const TextStyle(
+                        //  color: Color(0xff999999),
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal)),
+              ),
             ),
           ],
         ),

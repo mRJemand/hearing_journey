@@ -1,7 +1,7 @@
 name: hearing_journey
 description: A new Flutter project.
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.1+1
 
 environment:
   sdk: '>=3.1.3 <4.0.0'
@@ -19,18 +19,78 @@ dependencies:
   csv: ^5.1.1
   accordion: ^2.6.0
   firebase_auth: ^4.14.0
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
 
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/appicon.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/appicon.jpg"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: true
+    image_path: "assets/appicon.jpg"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/appicon.jpg"
+
 flutter:
   uses-material-design: true
 
   assets:
+     - assets/appicon.jpg
      - assets/fragebogen.jpg
      - assets/tipps.jpg
      - assets/questions.csv
      - assets/tips.csv
+     - assets/Wecker.png
+     - assets/Türklingel.png
+     - assets/Signalanlagen.png
+     - assets/Gegensprechanlage.png
+     - assets/Lichtsignal.png
+     - assets/Diskreter Signalgeber.png
+     - assets/Körperliche Berührung.png
+     - assets/Haushaltsgerät.png
+     - assets/Anstecker für Hörgeschädigte.png
+     - assets/Papier und Stift.jpg
+     - assets/zaubertafel.png
+     - assets/handy.jpg
+     - assets/Einkaufen.jpg
+     - assets/Friseur.jpg
+     - assets/türklingel.jpg
+     - assets/behörde.jpg
+     - assets/Theater.jpg
+     - assets/dsb.png
+     - assets/Ticket.jpg
+     - assets/museum.jpg
+     - assets/Audioguide.jpg
+     - assets/Kino.jpg
+     - assets/Konzert.jpg
+     - assets/turnhalle.jpg
+     - assets/schwimmen.jpg
+     - assets/skifahren.jpg
+     - assets/yoga.jpg
+     - assets/Flughafen.jpg
+     - assets/Verkehr.jpg
+     - assets/Autofahren.jpg
+     - assets/bahnhof.jpg
+     - assets/sirenen.jpg
+     - assets/schutz.jpg
+     - assets/Arbeit.jpg
+     - assets/Gespräch.jpg
+     - assets/Restaurant.jpg
+     - assets/Zu Hause.jpg
+     - assets/feier.jpg
+     - assets/Hörgerät.jpg
+     - assets/Arbeit.jpg
 
