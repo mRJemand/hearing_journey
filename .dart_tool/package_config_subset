@@ -82,6 +82,10 @@ file
 3.0
 file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/file-7.0.0/
 file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/file-7.0.0/lib/
+file_picker
+2.19
+file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/file_picker-6.1.1/
+file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/file_picker-6.1.1/lib/
 firebase_auth
 2.18
 file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/firebase_auth-4.15.3/
@@ -114,6 +118,10 @@ flutter_lints
 2.19
 file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3/
 file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/flutter_lints-2.0.3/lib/
+flutter_plugin_android_lifecycle
+2.19
+file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17/
+file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.17/lib/
 get
 2.15
 file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/get-4.6.6/
@@ -190,6 +198,10 @@ petitparser
 2.19
 file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/petitparser-5.4.0/
 file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/petitparser-5.4.0/lib/
+photo_view
+2.12
+file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/photo_view-0.14.0/
+file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/photo_view-0.14.0/lib/
 platform
 2.19
 file:///Users/aleksandarradovic/.pub-cache/hosted/pub.dev/platform-3.1.3/

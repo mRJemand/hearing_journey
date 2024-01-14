@@ -171,6 +171,15 @@ const DUMMY_CATEGORIES = const [
   ),
   Category(
     id: '6',
+    title: 'Sport',
+    firebase_key: 'sport',
+    description:
+        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.',
+    imageUrl:
+        'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+  ),
+  Category(
+    id: '7',
     title: 'Unterhaltung und Kultur',
     firebase_key: 'unterhaltung',
     description:
@@ -179,7 +188,7 @@ const DUMMY_CATEGORIES = const [
         'https://images.unsplash.com/photo-1603739903239-8b6e64c3b185?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80',
   ),
   Category(
-    id: '7',
+    id: '8',
     title: 'Unterwegs',
     firebase_key: 'unterwegs',
     description:
@@ -188,7 +197,7 @@ const DUMMY_CATEGORIES = const [
         'https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1744&q=80',
   ),
   Category(
-    id: '8',
+    id: '9',
     title: 'Zu Hause',
     firebase_key: 'zu_hause',
     description:

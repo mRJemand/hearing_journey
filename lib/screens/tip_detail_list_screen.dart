@@ -250,7 +250,6 @@ class _TipDetailListScreenState extends State<TipDetailListScreen> {
                 },
               ),
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () => nextTip()),
     );
   }
 }
