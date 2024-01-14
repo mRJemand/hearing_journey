@@ -19,7 +19,6 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -30,14 +29,15 @@ class _SignInState extends State<SignIn> {
           Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
         }
       });
-      setState(() {});
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
+  void showSnackbar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   @override
@@ -64,72 +64,67 @@ class _SignInState extends State<SignIn> {
               obscureText: true,
             ),
             SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                icon: Icon(Icons.account_circle_outlined),
-                onPressed: () async {
+            ElevatedButton.icon(
+              icon: Icon(Icons.account_circle_outlined),
+              onPressed: () async {
+                try {
                   dynamic result = await _auth.signInWithEmailAndPassword(
                     email: _emailController.text.trim(),
                     password: _passwordController.text.trim(),
                   );
-
                   if (result != null) {
-                    print('User logged in: $result');
+                    showSnackbar('Erfolgreich angemeldet!');
                     Navigator.of(context)
                         .pushReplacementNamed(TabsScreen.routeName);
                   } else {
-                    print('Error: Not logged in!');
+                    showSnackbar('Anmeldefehler!');
                   }
-                },
-                label: Text('Anmelden'),
-              ),
+                } catch (e) {
+                  showSnackbar('Fehler: ${e.toString()}');
+                }
+              },
+              label: Text('Anmelden'),
             ),
             SizedBox(height: 16),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                icon: Icon(Icons.no_accounts_outlined),
-                onPressed: () async {
+            ElevatedButton.icon(
+              icon: Icon(Icons.no_accounts_outlined),
+              onPressed: () async {
+                try {
                   dynamic result = await _auth.signInAnon();
                   if (result != null) {
-                    print('User logged in anonymously: $result');
+                    showSnackbar('Erfolgreich anonym angemeldet!');
                     Navigator.of(context)
                         .pushReplacementNamed(TabsScreen.routeName);
                   } else {
-                    print('Error: Not logged in!');
+                    showSnackbar('Anmeldefehler!');
                   }
-                },
-                label: const Text('Als Gast anmelden'),
-              ),
+                } catch (e) {
+                  showSnackbar('Fehler: ${e.toString()}');
+                }
+              },
+              label: const Text('Als Gast anmelden'),
             ),
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () async {
-                dynamic result = await _auth.createUserWithEmailAndPassword(
-                  email: _emailController.text.trim(),
-                  password: _passwordController.text.trim(),
-                );
-                if (result != null) {
-                  print('User created: $result');
-                } else {
-                  print('Error: Not created!');
+                try {
+                  dynamic result = await _auth.createUserWithEmailAndPassword(
+                    email: _emailController.text.trim(),
+                    password: _passwordController.text.trim(),
+                  );
+                  if (result != null) {
+                    showSnackbar('Benutzerkonto erfolgreich erstellt!');
+                    Navigator.of(context)
+                        .pushReplacementNamed(TabsScreen.routeName);
+                  } else {
+                    showSnackbar('Fehler bei der Kontoerstellung.');
+                  }
+                } catch (e) {
+                  showSnackbar('Fehler: ${e.toString()}');
                 }
               },
-              child: const Text('Registrieren mit Email & Password'),
+              child: const Text('Registrieren und anmelden'),
             ),
-            // SizedBox(height: 16),
-            // ElevatedButton(
-            //   onPressed: () async {
-            //     dynamic result = await _auth.signOut();
-            //     if (result != null) {
-            //       print('User signed out: $result');
-            //     } else {
-            //       print('Error: Not signed out!');
-            //     }
-            //   },
-            //   child: Text('Sign Out'),
-            // ),
           ],
         ),
       ),
