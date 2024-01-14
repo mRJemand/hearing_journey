@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hearing_journey/widgets/question.dart';
 
 import '../dummy_data.dart';
 import '../models/question.dart';
@@ -10,34 +14,69 @@ class QuestionnaireWidget extends StatefulWidget {
 }
 
 class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
-  int currentQuestionIndex = 0;
-  List<Question> questions = DUMMY_QUESTIONS;
+  // List<Question> questions = DUMMY_QUESTIONS;
   Map<Question, int> selectedAnswers = {};
-  Map<String, int> categoryPoints = {};
+  Map<String, int> phasePoints = {};
+  List<Question>? questionsList;
+  // neu
 
-  void selectAnswer(int answer) {
+  final CollectionReference questions =
+      FirebaseFirestore.instance.collection('questions');
+  late QuerySnapshot? questionSnapshot;
+  int currentQuestionIndex = 0;
+
+  List<Question>? allQuestions;
+
+  @override
+  void initState() {
+    super.initState();
+    questionSnapshot = null;
+    _loadQuestions();
+  }
+
+  Future<void> _loadQuestions() async {
+    try {
+      QuerySnapshot snapshot = await questions.get();
+      if (snapshot != null) {
+        setState(() {
+          questionSnapshot = snapshot;
+          allQuestions = createQuestionList(snapshot);
+          allQuestions?.sort((a, b) => a.number.compareTo(b.number));
+        });
+      }
+    } catch (e) {
+      print('Error loading questions: $e');
+    }
+  }
+
+  void selectAnswer(Question question, int answer) {
+    print("hallo $question $answer");
     setState(() {
-      selectedAnswers[questions[currentQuestionIndex]] = answer;
-      if (currentQuestionIndex < questions.length - 1) {
+      selectedAnswers[question] = answer;
+      selectedAnswers.forEach((question, answer) {
+        print('${question.number}: ---> $answer');
+      });
+      if (currentQuestionIndex < allQuestions!.length - 1) {
         currentQuestionIndex++;
       } else {
         // Der Fragebogen ist abgeschlossen, berechne die Punkte pro Kategorie
-        for (var question in questions) {
+        for (var question in allQuestions!) {
           if (selectedAnswers.containsKey(question)) {
-            var category = question.category;
+            var phase = question.phase;
             var points = selectedAnswers[question]!;
-            categoryPoints.putIfAbsent(category,
+            phasePoints.putIfAbsent(phase,
                 () => 0); // Kategorie hinzufügen, falls noch nicht vorhanden
-            categoryPoints[category] = categoryPoints[category]! +
-                points; // Punkte zur Kategorie addieren
+            phasePoints[phase] =
+                phasePoints[phase]! + points; // Punkte zur Kategorie addieren
           }
         }
+
         // Zeige den Ergebnis-Bildschirm an
-        Navigator.push(
+        Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => ResultScreen(
-              categoryPoints: categoryPoints,
+              categoryPoints: phasePoints,
               selectedAnswers: selectedAnswers,
             ),
           ),
@@ -46,8 +85,23 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
     });
   }
 
+  List<Question> createQuestionList(QuerySnapshot querySnapshot) {
+    return querySnapshot.docs.map((document) {
+      return Question.fromDocumentSnapshot(document);
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (questionSnapshot == null ||
+        allQuestions == null ||
+        questionSnapshot!.docs.length == 0 ||
+        allQuestions!.isEmpty) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    final currentQuestion = allQuestions![currentQuestionIndex];
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Fragebogen'),
@@ -65,145 +119,10 @@ class _QuestionnaireWidgetState extends State<QuestionnaireWidget> {
         ),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                elevation: 8.0,
-                child: Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Frage ${currentQuestionIndex + 1}',
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      const SizedBox(height: 16),
-                      Text(
-                        questions[currentQuestionIndex].question,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      const SizedBox(height: 16),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 0,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  0,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 1,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  1,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 2,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  2,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 3,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  3,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                          Container(
-                            width: double.infinity,
-                            child: AnswerButton(
-                              answer: 4,
-                              isSelected: selectedAnswers[
-                                      questions[currentQuestionIndex]] ==
-                                  4,
-                              onSelect: selectAnswer,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+          child: QuestionWidget(
+            questionObject: currentQuestion,
+            selectAnswer: selectAnswer,
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class AnswerButton extends StatelessWidget {
-  final int answer;
-  final bool isSelected;
-  final Function(int) onSelect;
-
-  AnswerButton(
-      {required this.answer, required this.isSelected, required this.onSelect});
-
-  String answerText() {
-    if (answer == 0) {
-      return 'Trifft überhaupt nicht zu';
-    } else if (answer == 1) {
-      return 'Trifft eher nicht zu';
-    } else if (answer == 2) {
-      return 'Weiss nicht';
-    } else if (answer == 3) {
-      return 'Trifft eher zu';
-    } else if (answer == 4) {
-      return 'Trifft voll und ganz zu';
-    } else {
-      return answer.toString();
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final String answerOption = answerText();
-    return ElevatedButton(
-      onPressed: () {
-        onSelect(answer);
-      },
-      style: ButtonStyle(
-        backgroundColor:
-            isSelected ? MaterialStateProperty.all<Color>(Colors.blue) : null,
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-        ),
-      ),
-      child: Text(
-        '$answerOption',
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
         ),
       ),
     );

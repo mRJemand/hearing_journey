@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1097092791568",
+    "project_id": "afe-hearing-journey",
+    "storage_bucket": "afe-hearing-journey.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1097092791568:android:1d28867a75dfbdf1c6f995",
+        "android_client_info": {
+          "package_name": "com.example.hearing_journey"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVB3j17xPAYLSOU11ZI1qTg7IWr6n18jo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

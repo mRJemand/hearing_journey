@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:hearing_journey/provider/tipps.dart';
 import 'package:hearing_journey/screens/questionaire_screen.dart';
+import 'package:hearing_journey/screens/tip_detail_list_screen.dart';
+import 'package:hearing_journey/widgets/authenticate.dart';
+import 'package:hearing_journey/widgets/sign_in.dart';
 import 'package:provider/provider.dart';
 import './screens/diary_screen.dart';
 import './screens/help_screen.dart';
-import './screens/home_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/settings_screen.dart';
-import './screens/tipp_detail_screen.dart';
-import './screens/tipps_screen.dart';
+import 'screens/tip_detail_screen.dart';
+import 'screens/tips_category_screen.dart';
 import './screens/tabs_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -25,9 +35,6 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'SIGNIA',
         theme: ThemeData(
-          primarySwatch: Colors.red,
-          accentColor: Colors.amber,
-          //canvasColor: Colors.blueGrey,
           canvasColor: Colors.white,
           fontFamily: 'Releway',
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -43,8 +50,10 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
+          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.red)
+              .copyWith(secondary: Colors.amber),
         ),
-        home: TabsScreen(),
+        home: Authenticate(),
         debugShowCheckedModeBanner: false,
         routes: {
           DiaryScreen.routeName: (context) {
@@ -62,11 +71,20 @@ class MyApp extends StatelessWidget {
           SettingsScreen.routeName: (context) {
             return SettingsScreen();
           },
-          TippsScreen.routeName: (context) {
-            return TippsScreen();
+          TippsCategoryScreen.routeName: (context) {
+            return TippsCategoryScreen();
           },
-          TippDetailScreen.routeName: (context) {
-            return TippDetailScreen();
+          TipDetailScreen.routeName: (context) {
+            return TipDetailScreen();
+          },
+          TipDetailListScreen.routeName: (context) {
+            return TipDetailListScreen();
+          },
+          TabsScreen.routeName: (context) {
+            return TabsScreen();
+          },
+          SignIn.routeName: (context) {
+            return SignIn();
           },
         },
         // onGenerateRoute: (settings) {
@@ -74,7 +92,7 @@ class MyApp extends StatelessWidget {
         // return MaterialPageRoute(builder: (ctx) => CategoriesScreen());
         // },
         onUnknownRoute: (settings) {
-          return MaterialPageRoute(builder: (ctx) => TippsScreen());
+          return MaterialPageRoute(builder: (ctx) => TippsCategoryScreen());
         },
       ),
     );

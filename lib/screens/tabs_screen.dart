@@ -1,13 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hearing_journey/screens/home_screen.dart';
+import 'package:hearing_journey/services/auth.dart';
+import 'package:hearing_journey/widgets/sign_in.dart';
 import './diary_screen.dart';
 import './help_screen.dart';
 import './profile_screen.dart';
 import './settings_screen.dart';
-import './tipps_screen.dart';
+import 'tips_category_screen.dart';
 import '../widgets/main_drawer.dart';
 
 class TabsScreen extends StatefulWidget {
+  static const routeName = '/main';
   @override
   State<TabsScreen> createState() => _TabsScreenState();
 }
@@ -19,7 +23,7 @@ class _TabsScreenState extends State<TabsScreen> {
       'title': 'Hearing Journey',
     },
     {
-      'page': TippsScreen(),
+      'page': TippsCategoryScreen(),
       'title': 'Tipps',
     },
     {
@@ -29,10 +33,35 @@ class _TabsScreenState extends State<TabsScreen> {
   ];
 
   int _selectedPageIndex = 0;
+  final AuthService _auth = AuthService();
 
   void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
+    if (mounted) {
+      setState(() {
+        _selectedPageIndex = index;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        print('User is currently signed out!');
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed(SignIn.routeName);
+        }
+      } else {
+        print('User is signed in!');
+      }
     });
   }
 
@@ -41,6 +70,9 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(_pages[_selectedPageIndex]['title'] as String),
+        actions: [
+          IconButton(onPressed: () => _auth.signOut(), icon: Icon(Icons.logout))
+        ],
       ),
       drawer: Drawer(
         child: MainDrawer(),
